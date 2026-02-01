@@ -1,9 +1,8 @@
 import React from "react";
 import { ShoppingCart, Plus, Minus, } from 'lucide-react';
 import { foodItems } from "../../utils/constants";
-
 import { useCart } from "../../context/CartContext";
-
+import "../CartItem/CartItem.css"
 
 
 function CartItem() {

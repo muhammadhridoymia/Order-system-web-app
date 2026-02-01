@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ShoppingCart, User, Package} from 'lucide-react';
+import { ShoppingCart, User, Package,ListOrdered} from 'lucide-react';
 import '../Style/Home.css';
 
 //pages
 import Profile from '../Components/Profile/Profile';
 import Home from '../Components/Home/Home';
 import CartItem from '../Components/CartItem/CartItem';
+import Order from '../Components/Orders/Order';
 
 
 const FoodOrderApp = () => {
@@ -14,12 +15,13 @@ const FoodOrderApp = () => {
  
   return (
     <div className="app-container">
-      
+
       {/* Main Content */}
       <div className="main-content">
         {activeTab === 'home' && <Home/>}
         {activeTab === 'cart' && <CartItem/>}
         {activeTab === 'profile' && <Profile/>}
+        {activeTab==='orders' && <Order/>}
       </div>
 
       {/* Bottom Navigation */}
@@ -42,6 +44,14 @@ const FoodOrderApp = () => {
             </div>
             <span className="nav-label">Cart</span>
           </button>
+
+          <button 
+          onClick={()=>setActiveTab("orders")}
+          className={`nav-btn ${activeTab === 'orders' ? 'active' : ''}`}
+        >
+          <ListOrdered className="nav-icon" />
+          <span className="nav-label">Orders</span>
+        </button>
           
           <button 
             onClick={() => setActiveTab('profile')}

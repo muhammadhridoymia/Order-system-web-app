@@ -1,3 +1,4 @@
+
 export const categories = ['All', 'Category', 'Popular', 'Restaurant Post', 'Drinks', 'Desserts'];
 
   export const foodItems = [

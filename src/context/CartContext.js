@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext ,useEffect} from 'react';
 const CartContext = createContext();
 
 export const useCart = () => {
@@ -11,6 +11,25 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
+  const [Food,setFood]=useState([])
+
+
+     const FooD= async()=>{
+      try {
+        const res = await fetch("http://192.168.0.108:5000/api/get/foods");
+        const data = await res.json();
+        if (data.success){
+          setFood(data.foods)
+          console.log("DATA:",data.foods)
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+      }
+    }
+    useEffect(()=>{
+      FooD()
+    },[])
 
   const addToCart = (itemId) => {
     setCartItems(prev => ({
@@ -41,6 +60,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider value={{
+      Food,
       cartItems,
       addToCart,
       removeFromCart,

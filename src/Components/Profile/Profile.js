@@ -1,5 +1,6 @@
 import React from 'react'
 import { foodItems } from '../../utils/constants'
+import "../Profile/Profile.css"
 
 
 function Profile() {

@@ -1,6 +1,7 @@
 /* APP CONTAINER */
 .app-container {
   min-height: 100vh;
+  background-color: #fb772b;
 }
 
 /* HEADER */
@@ -90,6 +91,7 @@
   flex-direction: column;
   gap: 16px;
   padding: 16px;
+  margin-bottom: 100px;
 }
 
 .food-item-card {
@@ -257,6 +259,7 @@
 
 /* Bottom Navigation */
 .bottom-navigation {
+  height: 60px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -270,7 +273,6 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 16px;
 }
 
 .nav-btn {

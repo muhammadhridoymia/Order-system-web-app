@@ -1,0 +1,96 @@
+/* Add this to your existing ../Style/Home.css file */
+
+.banner {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Desktop/Large Screens (1024px and above) */
+@media (min-width: 1024px) {
+  .banner {
+    max-height: 500px;
+  }
+  
+  .banner img {
+    max-height: 500px;
+    object-position: center;
+  }
+}
+
+/* Tablet/Laptop (768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .banner {
+    max-height: 400px;
+  }
+  
+  .banner img {
+    max-height: 400px;
+  }
+}
+
+/* Mobile Devices (up to 767px) */
+@media (max-width: 767px) {
+  .banner {
+    max-height: 300px;
+  }
+  
+  .banner img {
+    max-height: 300px;
+    object-position: top center; /* Adjust as needed based on your image composition */
+  }
+}
+
+/* Extra Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+  .banner {
+    max-height: 200px;
+  }
+  
+  .banner img {
+    max-height: 200px;
+  }
+}
+
+/* Optional: Add banner text overlay if needed later */
+/*
+.banner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 90%;
+}
+
+.banner-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.banner-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 767px) {
+  .banner-title {
+    font-size: 1.5rem;
+  }
+  
+  .banner-subtitle {
+    font-size: 1rem;
+  }
+}
+*/

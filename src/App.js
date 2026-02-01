@@ -1,10 +1,13 @@
-import React from "react";
-import Home from "./Pages/Home";
+import React from 'react';
+import { CartProvider } from './context/CartContext';
+import Home from './Pages/Home';
+import './App.css';
+
 function App() {
   return (
-    <div>
-      <Home/>
-    </div>
+    <CartProvider>
+      <Home />
+    </CartProvider>
   );
 }
 

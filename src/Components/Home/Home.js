@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import BannerImage from "../../Images/banners.jpg";
 import { categories } from "../../utils/constants";
+
+
 import AllFood from "../FoodItems/AllFood";
 import Popular from "../FoodItems/Popular";
+import CategoryFoodImg from "../Category/CategoryFoodImg";
 
 
 const Home = () => {
@@ -35,6 +38,7 @@ const Home = () => {
       {/* FOOD LIST */}
       {activeCat==="All"&& <AllFood/>}
       {activeCat==="Popular"&& <Popular/>}
+      {activeCat==="Category"&& <CategoryFoodImg/>}
     </div>
   );
 };

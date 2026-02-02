@@ -1,0 +1,269 @@
+/* Popup Overlay */
+.category-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Popup Container */
+.category-popup-container {
+  background-color: rgb(232, 137, 13);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  position: relative;
+}
+
+/* Popup Header */
+.category-popup-header {
+  padding: 20px 24px 15px;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.category-popup-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fefefe;
+}
+
+.category-popup-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  background-color: #e01212;
+}
+
+.category-popup-close:hover {
+  background-color: #ebebeb;
+  color: #ffffff;
+}
+
+/* Popup Content */
+.category-popup-content {
+  padding: 24px;
+}
+
+/* Form Styling */
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+  }
+}
+
+
+
+
+
+
+.category-food-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 100px;
+}
+
+.category-food-item-card {
+  display: flex;
+  height: 150px;
+  border-radius: 16px;
+  background: white;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.category-food-item-card:hover {
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+/* LEFT IMAGE */
+.category-food-left {
+  width: 90%;
+  position: relative;
+}
+
+.category-food-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-food-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 12px;
+  color: white;
+}
+
+.category-food-overlay h3 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.category-food-overlay p {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* RIGHT DETAILS */
+.category-food-right {
+  width: 40%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-food-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ea580c;
+  text-align: right;
+}
+
+/* QUANTITY CONTROLS */
+.category-quantity-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-quantity-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(90deg, #f97316, #ec4899);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.category-quantity-btn:hover {
+  transform: scale(1.1);
+}
+
+.category-quantity-value {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ACTION BUTTONS */
+.category-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-add-to-cart-btn,
+.category-order-now-btn {
+  padding: 2px;
+  width: 80px;
+  height: 30px;
+  border-radius: 999px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.category-add-to-cart-btn {
+  background: linear-gradient(90deg, #f97316, #ec4899);
+}
+
+.category-add-to-cart-btn:hover {
+  transform: scale(1.05);
+}
+
+.category-order-now-btn {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+.category-order-now-btn:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .category-popup-container {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .category-popup-header {
+    padding: 16px 20px 12px;
+  }
+  
+  .category-popup-content {
+    padding: 20px;
+  }
+  
+  .category-popup-buttons {
+    flex-direction: column;
+  }
+  
+  .category-popup-button {
+    width: 100%;
+  }
+}

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import React from "react";
 import { useCart } from "../../context/CartContext";
+import OrderSubmit from "../Popup/OrderSubmit";
 
 function Popular() {
-  const { addToCart, Food } = useCart();
+    const { addToCart, PopularFood } = useCart();
     const [quantities, setQuantities] = useState({});
+    const [popup ,setpopup]=useState(false)
+    
   
 
 
@@ -19,8 +22,11 @@ function Popular() {
 
   return (
     <div>
+
+      <OrderSubmit isOpen={popup} onClose={() => setpopup(false)} />
+
       <div className="food-items-grid">
-        {Food.map((item) => (
+        {PopularFood.map((item) => (
           <div key={item._id} className="food-item-card">
             {/* LEFT IMAGE */}
             <div className="food-left">
@@ -57,7 +63,7 @@ function Popular() {
                 >
                   Add to Cart
                 </button>
-                <button className="order-now-btn">Order Now</button>
+                <button className="order-now-btn" onClick={()=>setpopup(true)}>Order Now</button>
               </div>
             </div>
           </div>

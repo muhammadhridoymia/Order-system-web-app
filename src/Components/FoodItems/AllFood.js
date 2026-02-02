@@ -1,10 +1,12 @@
 import { useState } from "react";
 import React from "react";
+import OrderSubmit from "../Popup/OrderSubmit";
 import { useCart } from "../../context/CartContext";
 
 function AllFood() {
-  const { addToCart, Food } = useCart();
+    const { addToCart, Food } = useCart();
     const [quantities, setQuantities] = useState({});
+    const [popup ,setpopup]=useState(false)
   
 
 
@@ -19,6 +21,9 @@ function AllFood() {
 
   return (
     <div>
+
+      <OrderSubmit isOpen={popup} onClose={() => setpopup(false)} />
+
       <div className="food-items-grid">
         {Food.map((item) => (
           <div key={item._id} className="food-item-card">
@@ -57,7 +62,7 @@ function AllFood() {
                 >
                   Add to Cart
                 </button>
-                <button className="order-now-btn">Order Now</button>
+                <button className="order-now-btn" onClick={()=> setpopup(true)}>Order Now</button>
               </div>
             </div>
           </div>

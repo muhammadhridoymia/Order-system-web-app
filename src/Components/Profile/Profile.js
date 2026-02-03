@@ -15,6 +15,11 @@ function Profile() {
     }
   }, []);
 
+  const Delete=()=>{
+    localStorage.removeItem("user");
+
+  }
+
 
   const Profile=()=>{
 
@@ -55,6 +60,7 @@ function Profile() {
                 </div>
               ))}
             </div>
+            <button onClick={()=>Delete()}>Log Out </button>
           </div>
         </div>
       </div>

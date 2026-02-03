@@ -5,13 +5,26 @@ import Register from "./Register";
 function Login({ setUser }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [show ,setshow]=useState(false)
+  const [show, setshow] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (phone && password) {
-      const userData = { phone };
-      localStorage.setItem("user", JSON.stringify(userData));
-      setUser(userData);
+      try {
+        const res = await fetch("http://172.172.10.240:5000/api/login/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phone, password }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setUser(data.user);
+        }
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       alert("Enter phone and password");
     }
@@ -37,9 +50,9 @@ function Login({ setUser }) {
         />
 
         <button onClick={handleLogin}>Login</button>
-        <p onClick={()=> setshow(true)}>Register</p>
+        <p onClick={() => setshow(true)}>Register</p>
       </div>
-      {show?<Register close={setshow} setUser={setUser}/>:""}
+      {show ? <Register close={setshow} setUser={setUser} /> : ""}
     </div>
   );
 }

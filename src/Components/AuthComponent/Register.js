@@ -28,7 +28,7 @@ function Register({ close, setUser }) {
     formData.append("password", password);
     formData.append("img", image);
 
-    const res = await fetch("http://localhost:5000/api/add/user", {
+    const res = await fetch("http://172.172.10.240:5000/api/add/user", {
       method: "POST",
       body: formData,
     });

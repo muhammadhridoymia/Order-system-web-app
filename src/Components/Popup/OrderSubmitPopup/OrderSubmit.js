@@ -1,7 +1,8 @@
 import React from 'react'
-import '../Popup/OrderSubmit.css';
+import '../OrderSubmitPopup/OrderSubmit.css';
 
-function OrderSubmit({ isOpen, onClose }) {
+function OrderSubmit({ isOpen, onClose ,foodId,quantities}) {
+  console.log("foodid",foodId,"Quantities",quantities)
   if (!isOpen) return null;
 
   return (

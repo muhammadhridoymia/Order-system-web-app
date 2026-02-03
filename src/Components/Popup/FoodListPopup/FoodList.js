@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import "../FoodListPopup/FoodList.css";
 import { useCart } from "../../../context/CartContext";
-import OrderSubmit from "../OrderSubmit";
+import OrderSubmit from "../OrderSubmitPopup/OrderSubmit";
 
 function FoodList({ isOpen, onClose ,id}) {
   const { addToCart, CagegoryFood,fetchCategoriesFoods } = useCart();

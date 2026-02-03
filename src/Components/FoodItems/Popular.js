@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { useCart } from "../../context/CartContext";
-import OrderSubmit from "../Popup/OrderSubmit";
+import OrderSubmit from "../Popup/OrderSubmitPopup/OrderSubmit";
 
 function Popular() {
     const { addToCart, PopularFood } = useCart();

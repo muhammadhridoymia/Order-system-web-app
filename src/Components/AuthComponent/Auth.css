@@ -74,3 +74,13 @@
     opacity: 1;
   }
 }
+
+.upload-box{
+  width: 90%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+}

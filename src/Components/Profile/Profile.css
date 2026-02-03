@@ -38,10 +38,13 @@
 .profile-content {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 16px;
 }
 
 .stats-card, .favorites-card {
+  width: 80%;
   background: white;
   border-radius: 16px;
   padding: 24px;

@@ -6,7 +6,7 @@ import Login from "../AuthComponent/Auth";
 
 function Profile() {
   const [user, setUser] = useState(null);
-  const storedUser = localStorage.getItem("user");
+  
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -23,7 +23,7 @@ function Profile() {
       <div className="profile-container">
         <div className="profile-header">
           <div className="profile-avatar">JS</div>
-          <h2 className="profile-name">John Smith</h2>
+          <h2 className="profile-name">{user.name}</h2>
           <p className="profile-bio">Food Lover 🍔</p>
         </div>
 

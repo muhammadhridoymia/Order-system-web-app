@@ -1,28 +1,32 @@
 import { useState } from "react";
 import React from "react";
-import OrderSubmit from "../Popup/OrderSubmit";
+import OrderSubmit from "../Popup/OrderSubmitPopup/OrderSubmit";
 import { useCart } from "../../context/CartContext";
 
 function AllFood() {
-    const { addToCart, Food } = useCart();
-    const [quantities, setQuantities] = useState({});
-    const [popup ,setpopup]=useState(false)
-  
+  const { addToCart, Food } = useCart();
+  const [popup, setpopup] = useState(false);
+  const [id,setid]=useState("")
 
+  const [quantities, setQuantities] = useState({});
 
-    const handleQuantity = (id, type) => {
-    setQuantities(prev => {
-      const value = prev[id] || 1;
-      if (type === "inc") return { ...prev, [id]: value + 1 };
-      if (type === "dec" && value > 1) return { ...prev, [id]: value - 1 };
-      return prev;
-    });
+  const increaseQty = (id) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: (prev[id] || 1) + 1,
+    }));
+  };
+
+  const decreaseQty = (id) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: prev[id] > 1 ? prev[id] - 1 : 1,
+    }));
   };
 
   return (
     <div>
-
-      <OrderSubmit isOpen={popup} onClose={() => setpopup(false)} />
+      <OrderSubmit isOpen={popup} onClose={() => setpopup(false)} foodId={id}quantities={quantities[id]||1} />
 
       <div className="food-items-grid">
         {Food.map((item) => (
@@ -40,17 +44,11 @@ function AllFood() {
               <div className="food-price">${item.price}</div>
 
               <div className="quantity-controls">
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantity(item._id, "dec")}
-                >
+                <button className="quantity-btn" onClick={() => decreaseQty(item._id)}>
                   -
                 </button>
-                <div className="quantity-value">{quantities[item.id] || 1}</div>
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantity(item._id, "inc")}
-                >
+                <div className="quantity-value">{quantities[item._id]||1}</div>
+                <button className="quantity-btn" onClick={() => increaseQty(item._id)}>
                   +
                 </button>
               </div>
@@ -62,7 +60,12 @@ function AllFood() {
                 >
                   Add to Cart
                 </button>
-                <button className="order-now-btn" onClick={()=> setpopup(true)}>Order Now</button>
+                <button
+                  className="order-now-btn"
+                  onClick={() => {setpopup(true);setid(item._id)}}
+                >
+                  Order Now
+                </button>
               </div>
             </div>
           </div>

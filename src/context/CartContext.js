@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+
 const CartContext = createContext();
 
 export const useCart = () => {
@@ -16,6 +17,7 @@ export const CartProvider = ({ children }) => {
   const [Food, setFood] = useState([]);
   const [PopularFood, setPopularFood] = useState([]);
   const [CagegoryFood, setCategoryFood] = useState([]);
+  const url=process.env.API
 
   const fetchCategoriesFoods = async (id) => {
     try {
@@ -70,7 +72,7 @@ export const CartProvider = ({ children }) => {
 
   const FooD = async () => {
     try {
-      const res = await fetch("http://172.172.10.240:5000/api/get/foods");
+      const res = await fetch(`${url}/api/get/foods`);
       const data = await res.json();
       if (data.success) {
         setFood(data.foods);

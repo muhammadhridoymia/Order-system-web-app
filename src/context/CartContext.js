@@ -17,12 +17,12 @@ export const CartProvider = ({ children }) => {
   const [Food, setFood] = useState([]);
   const [PopularFood, setPopularFood] = useState([]);
   const [CagegoryFood, setCategoryFood] = useState([]);
-  const url=process.env.API
+  const url = process.env.REACT_APP_API;
 
   const fetchCategoriesFoods = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/get/categoryfoods/${id}`,
+        `${url}/api/get/categoryfoods/${id}`,
       );
 
       if (!res.ok) {
@@ -43,7 +43,7 @@ export const CartProvider = ({ children }) => {
   const PopularFoodList = async () => {
     try {
       const res = await fetch(
-        "http://172.172.10.240:5000/api/get/popular/foods",
+        `${url}/api/get/popular/foods`,
       );
       const data = await res.json();
       if (data.success) {
@@ -58,7 +58,7 @@ export const CartProvider = ({ children }) => {
 
   const Category = async () => {
     try {
-      const res = await fetch("http://172.172.10.240:5000/api/get/categories");
+      const res = await fetch(`${url}/api/get/categories`);
       const data = await res.json();
       if (data.success) {
         setCategoryImg(data.categories);

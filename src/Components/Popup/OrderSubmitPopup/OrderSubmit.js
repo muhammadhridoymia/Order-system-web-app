@@ -11,6 +11,8 @@ function OrderSubmit({ isOpen, onClose, foodId, quantities }) {
   const [name,setname]=useState("")
   const [message,setMessage]=useState("")
   const [loading,setLoading]=useState(false)
+  const url = process.env.REACT_APP_API;
+
 
 
 
@@ -37,7 +39,7 @@ function OrderSubmit({ isOpen, onClose, foodId, quantities }) {
     if (items && userId && name) {
       setLoading(true)
       try {
-        const res = await fetch("http://172.172.10.240:5000/api/order/submit", {
+        const res = await fetch(`${url}/api/order/submit`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { io } from "socket.io-client";
 
 const CartContext = createContext();
 
@@ -11,19 +12,24 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
+  const url = process.env.REACT_APP_API;
+
+  const socket = io(url);
+
   const [cartItems, setCartItems] = useState({});
   const [CagegoryImg, setCategoryImg] = useState([]);
-
   const [Food, setFood] = useState([]);
   const [PopularFood, setPopularFood] = useState([]);
   const [CagegoryFood, setCategoryFood] = useState([]);
-  const url = process.env.REACT_APP_API;
+  const [DataLiveOrder, setData] = useState({
+    items: [],
+  });
+  const Userid = localStorage.getItem("user");
+  const user = JSON.parse(Userid);
 
   const fetchCategoriesFoods = async (id) => {
     try {
-      const res = await fetch(
-        `${url}/api/get/categoryfoods/${id}`,
-      );
+      const res = await fetch(`${url}/api/get/categoryfoods/${id}`);
 
       if (!res.ok) {
         throw new Error("Server not responding");
@@ -40,11 +46,25 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const FetchLiveData = async () => {
+    const userId = user.id;
+    console.log(`userid is : ${userId}`);
+
+    try {
+      const res = await fetch(`${url}/api/get/order/in/mobile/${userId}`);
+      const data = await res.json();
+      if (data.success) {
+        setData(data.order);
+        console.log("Order data:", data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const PopularFoodList = async () => {
     try {
-      const res = await fetch(
-        `${url}/api/get/popular/foods`,
-      );
+      const res = await fetch(`${url}/api/get/popular/foods`);
       const data = await res.json();
       if (data.success) {
         setPopularFood(data.popularFoods);
@@ -87,6 +107,10 @@ export const CartProvider = ({ children }) => {
     PopularFoodList();
     Category();
     FooD();
+
+    socket.emit("joinRoom", user.id);
+
+    socket.on("orderUpdate", () => FetchLiveData());
   }, []);
 
   const addToCart = (itemId) => {
@@ -119,6 +143,8 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        DataLiveOrder,
+        FetchLiveData,
         CagegoryFood,
         fetchCategoriesFoods,
         PopularFood,

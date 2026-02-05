@@ -48,18 +48,7 @@ function Profile() {
           </div>
 
           <div className="favorites-card">
-            <h3 className="favorites-title">Favorite Items</h3>
-            <div className="favorites-list">
-              {foodItems.slice(0, 3).map((item) => (
-                <div key={item.id} className="favorite-item">
-                  <div className="favorite-item-image">{item.image}</div>
-                  <div className="favorite-item-details">
-                    <p className="favorite-item-name">{item.name}</p>
-                    <p className="favorite-item-count">Ordered 5 times</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <h3 className="favorites-title">Sittings</h3>
             <button onClick={()=>Delete()}>Log Out </button>
           </div>
         </div>

@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
 import { io } from "socket.io-client";
 
 const CartContext = createContext();
@@ -15,6 +21,9 @@ export const CartProvider = ({ children }) => {
   const url = process.env.REACT_APP_API;
 
   const socket = io(url);
+  const OrderSubmit = () => {
+    socket.emit("orderSubmit");
+  };
 
   const [cartItems, setCartItems] = useState({});
   const [CagegoryImg, setCategoryImg] = useState([]);
@@ -46,7 +55,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const FetchLiveData = async () => {
+  const FetchLiveData = useCallback(async () => {
     const userId = user.id;
     console.log(`userid is : ${userId}`);
 
@@ -60,9 +69,9 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [url, user.id]);
 
-  const PopularFoodList = async () => {
+  const PopularFoodList = useCallback(async () => {
     try {
       const res = await fetch(`${url}/api/get/popular/foods`);
       const data = await res.json();
@@ -72,11 +81,10 @@ export const CartProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
     }
-  };
+  }, [url]);
 
-  const Category = async () => {
+  const Category = useCallback(async () => {
     try {
       const res = await fetch(`${url}/api/get/categories`);
       const data = await res.json();
@@ -86,11 +94,10 @@ export const CartProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
     }
-  };
+  }, [url]);
 
-  const FooD = async () => {
+  const FooD = useCallback(async () => {
     try {
       const res = await fetch(`${url}/api/get/foods`);
       const data = await res.json();
@@ -100,9 +107,8 @@ export const CartProvider = ({ children }) => {
       }
     } catch (err) {
       console.error(err);
-    } finally {
     }
-  };
+  }, [url]);
   useEffect(() => {
     PopularFoodList();
     Category();
@@ -143,6 +149,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        OrderSubmit,
         DataLiveOrder,
         FetchLiveData,
         CagegoryFood,

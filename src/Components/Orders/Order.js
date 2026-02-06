@@ -3,16 +3,29 @@ import "../Orders/Order.css";
 import { useCart } from "../../context/CartContext";
 
 function LiveOrder() {
-  const {DataLiveOrder, FetchLiveData,}=useCart()
-  // calculate total
+  const { DataLiveOrder, FetchLiveData } = useCart();
+  useEffect(() => {
+    FetchLiveData();
+  }, []);
+
+  if (
+    !DataLiveOrder ||
+    !DataLiveOrder.items ||
+    DataLiveOrder.items.length === 0
+  ) {
+    return (
+      <div className="no-order-con">
+        <div className="no-order-box">
+          <div>No Order</div>
+        </div>
+      </div>
+    );
+  }
+
   const totalPrice = DataLiveOrder.items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-
-  useEffect(() => {
-    FetchLiveData()
-  }, []);
 
   return (
     <div className="order-container">
@@ -32,7 +45,9 @@ function LiveOrder() {
           {new Date(DataLiveOrder.orderedAt).toLocaleTimeString()}
         </p>
 
-        {DataLiveOrder.message && <p className="message">📝 {DataLiveOrder.message}</p>}
+        {DataLiveOrder.message && (
+          <p className="message">📝 {DataLiveOrder.message}</p>
+        )}
       </div>
 
       {/* Items (simple style) */}

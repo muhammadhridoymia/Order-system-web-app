@@ -1,66 +1,70 @@
 import React, { useState } from "react";
 import "../OrderSubmitPopup/OrderSubmit.css";
 import Login from "../../AuthComponent/Auth";
+import { useCart } from "../../../context/CartContext";
 
 function OrderSubmit({ isOpen, onClose, foodId, quantities }) {
+  const { OrderSubmit } = useCart();
 
   const Userid = localStorage.getItem("user");
 
-
-  const [ShowSuccess,setSuccess]=useState(false)
-  const [name,setname]=useState("")
-  const [message,setMessage]=useState("")
-  const [loading,setLoading]=useState(false)
+  const [ShowSuccess, setSuccess] = useState(false);
+  const [name, setname] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const url = process.env.REACT_APP_API;
 
-
-
-
-  if(ShowSuccess){
-    return(
-      <ShowSuccessUI onClose={()=>{setSuccess(false);onClose()}} message={message}/>
-    )
+  if (ShowSuccess) {
+    return (
+      <ShowSuccessUI
+        onClose={() => {
+          setSuccess(false);
+          onClose();
+        }}
+        message={message}
+      />
+    );
   }
-    if (!isOpen) {
-      return null
-    }
-    if(!Userid){
-      return(
-        <ShowLogin onClose={onClose}/>
-      )
-    }
+
+  if (!isOpen) {
+    return null;
+  }
+  if (!Userid) {
+    return <ShowLogin onClose={onClose} />;
+  }
 
   const handleSubmit = async () => {
     const user = JSON.parse(Userid);
-    const userId=user.id
+    const userId = user.id;
     const quantity = quantities;
-    const items=[{foodId,quantity}]
+    const items = [{ foodId, quantity }];
 
     if (items && userId && name) {
-      setLoading(true)
+      setLoading(true);
       try {
         const res = await fetch(`${url}/api/order/submit`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({userId,items,name}),
+          body: JSON.stringify({ userId, items, name }),
         });
         const data = await res.json();
         if (data.success) {
-          setSuccess(true)
-          setMessage(data.message)
-          setLoading(false)
+          setSuccess(true);
+          setMessage(data.message);
+          setLoading(false);
+          OrderSubmit();
         }
-        setSuccess(true)
-        setMessage(data.message)
-        setLoading(false)
+        setSuccess(true);
+        setMessage(data.message);
+        setLoading(false);
       } catch (error) {
-        setLoading(false)
+        setLoading(false);
         console.log(error);
       }
     } else {
-      setLoading(false)
+      setLoading(false);
       alert("Enter Table Number or Address");
     }
   };
@@ -80,7 +84,7 @@ function OrderSubmit({ isOpen, onClose, foodId, quantities }) {
             <input
               type="text"
               value={name}
-              onChange={(e)=>setname(e.target.value)}
+              onChange={(e) => setname(e.target.value)}
               placeholder="Table Number or Address"
               className="popup-input"
             />
@@ -89,11 +93,12 @@ function OrderSubmit({ isOpen, onClose, foodId, quantities }) {
             </p>
             <div className="popup-buttons">
               <button
+              disabled={loading}
                 type="button"
                 className="popup-button popup-button-primary"
                 onClick={handleSubmit}
               >
-                {loading?"Wait..":"Place Order"}
+                {loading ? <div className="loading-spinner-btn"></div>: "Place Order"}
               </button>
               <button
                 type="button"
@@ -111,7 +116,7 @@ function OrderSubmit({ isOpen, onClose, foodId, quantities }) {
 }
 
 const ShowLogin = ({ onClose }) => {
-  const [show,setShow]=useState(false)
+  const [show, setShow] = useState(false);
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-container" onClick={(e) => e.stopPropagation()}>
@@ -121,15 +126,17 @@ const ShowLogin = ({ onClose }) => {
             ×
           </button>
         </div>
-        <div className="login-btn"><button onClick={()=>setShow(true)}>Login</button></div>
-        {show?<Login/>:""}
+        <div className="login-btn">
+          <button onClick={() => setShow(true)}>Login</button>
+        </div>
+        {show ? <Login /> : ""}
         <div className="popup-content"></div>
       </div>
     </div>
   );
 };
 
-const ShowSuccessUI = ({ onClose ,message}) => {
+const ShowSuccessUI = ({ onClose, message }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-container" onClick={(e) => e.stopPropagation()}>
@@ -139,7 +146,9 @@ const ShowSuccessUI = ({ onClose ,message}) => {
             ×
           </button>
         </div>
-        <div className="login-btn"><p>{message}</p></div>
+        <div className="login-btn">
+          <p>{message}</p>
+        </div>
         <div className="popup-content"></div>
       </div>
     </div>

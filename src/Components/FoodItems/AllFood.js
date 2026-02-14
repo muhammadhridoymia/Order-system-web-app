@@ -4,7 +4,7 @@ import OrderSubmit from "../Popup/OrderSubmitPopup/OrderSubmit";
 import { useCart } from "../../context/CartContext";
 
 function AllFood() {
-  const { addToCart, Food } = useCart();
+  const { addToCart, Food ,cartItems} = useCart();
   const [popup, setpopup] = useState(false);
   const [id,setid]=useState("")
 
@@ -55,10 +55,10 @@ function AllFood() {
 
               <div className="action-buttons">
                 <button
-                  className="add-to-cart-btn"
+                  className={cartItems.some((i) => i._id === item._id) ? "added-btn" : "add-to-cart-btn"}
                   onClick={() => addToCart(item)}
                 >
-                  Add to Cart
+                  {cartItems.some((i) => i._id === item._id) ? "Added" : "Add to Cart"}
                 </button>
                 <button
                   className="order-now-btn"

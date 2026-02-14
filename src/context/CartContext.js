@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
     socket.emit("orderSubmit");
   };
 
-  const [cartItems, setCartItems] = useState({});
+  const [cartItems, setCartItems] = useState([]);
   const [CagegoryImg, setCategoryImg] = useState([]);
   const [Food, setFood] = useState([]);
   const [PopularFood, setPopularFood] = useState([]);
@@ -119,31 +119,37 @@ export const CartProvider = ({ children }) => {
     socket.on("orderUpdate", () => FetchLiveData());
   }, []);
 
-  const addToCart = (itemId) => {
-    setCartItems((prev) => ({
-      ...prev,
-      [itemId]: (prev[itemId] || 0) + 1,
-    }));
+  const addToCart = (item) => {
+    
+      setCartItems(prev => {
+    const existingItem = prev.find(i => i._id === item._id);
+
+    if (existingItem) {
+      return prev.map(i =>
+        i._id === item._id? { ...i, quantity: i.quantity + 1 }
+          : i
+      );
+    }
+
+    return [...prev, { ...item, quantity: 1 }];
+  });
+    console.log("Cart Items:", cartItems);
   };
 
   const removeFromCart = (itemId) => {
     setCartItems((prev) => {
-      const newQuantity = (prev[itemId] || 0) - 1;
-      if (newQuantity <= 0) {
-        const updated = { ...prev };
-        delete updated[itemId];
-        return updated;
-      }
-      return { ...prev, [itemId]: newQuantity };
+      const updatedCart = prev.filter((item) => item._id !== itemId);
+      console.log("Updated Cart Items:", updatedCart);
+      return updatedCart;
     });
   };
 
   const getCartCount = () => {
-    return Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
+    return cartItems.length;
   };
 
   const clearCart = () => {
-    setCartItems({});
+    setCartItems([]);
   };
 
   return (
@@ -158,6 +164,7 @@ export const CartProvider = ({ children }) => {
         CagegoryImg,
         Food,
         cartItems,
+        setCartItems,
         addToCart,
         removeFromCart,
         getCartCount,

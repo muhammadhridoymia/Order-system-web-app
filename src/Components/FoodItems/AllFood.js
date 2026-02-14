@@ -56,7 +56,7 @@ function AllFood() {
               <div className="action-buttons">
                 <button
                   className="add-to-cart-btn"
-                  onClick={() => addToCart(item.id)}
+                  onClick={() => addToCart(item)}
                 >
                   Add to Cart
                 </button>

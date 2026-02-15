@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect,useState } from "react";
-import { foodItems } from "../../utils/constants";
 import "../Profile/Profile.css";
 import Login from "../AuthComponent/Auth";
 

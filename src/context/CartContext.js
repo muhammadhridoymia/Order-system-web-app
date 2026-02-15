@@ -33,8 +33,8 @@ export const CartProvider = ({ children }) => {
   const [DataLiveOrder, setData] = useState({
     items: [],
   });
-  const Userid = localStorage.getItem("user");
-  const user = JSON.parse(Userid);
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   const fetchCategoriesFoods = async (id) => {
     try {
@@ -56,8 +56,11 @@ export const CartProvider = ({ children }) => {
   };
 
   const FetchLiveData = useCallback(async () => {
-    const userId = user.id;
-    console.log(`userid is : ${userId}`);
+    const userId = user.id || null;
+    if (!userId) {
+      console.error("User ID not found in localStorage");
+      return;
+    }
 
     try {
       const res = await fetch(`${url}/api/get/order/in/mobile/${userId}`);
@@ -69,7 +72,7 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [url, user.id]);
+  }, []);
 
   const PopularFoodList = useCallback(async () => {
     try {
@@ -114,25 +117,25 @@ export const CartProvider = ({ children }) => {
     Category();
     FooD();
 
-    socket.emit("joinRoom", user.id);
+    if (user?.id) {
+      socket.emit("joinRoom", user.id);
+    }
 
     socket.on("orderUpdate", () => FetchLiveData());
   }, []);
 
   const addToCart = (item) => {
-    
-      setCartItems(prev => {
-    const existingItem = prev.find(i => i._id === item._id);
+    setCartItems((prev) => {
+      const existingItem = prev.find((i) => i._id === item._id);
 
-    if (existingItem) {
-      return prev.map(i =>
-        i._id === item._id? { ...i, quantity: i.quantity + 1 }
-          : i
-      );
-    }
+      if (existingItem) {
+        return prev.map((i) =>
+          i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i,
+        );
+      }
 
-    return [...prev, { ...item, quantity: 1 }];
-  });
+      return [...prev, { ...item, quantity: 1 }];
+    });
     console.log("Cart Items:", cartItems);
   };
 

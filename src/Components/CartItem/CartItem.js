@@ -5,6 +5,7 @@ import "../CartItem/CartItem.css";
 
 function CartItem() {
   const { cartItems, removeFromCart,setCartItems } = useCart();
+  const [loading, setLoading] = React.useState(false);
 
   const TotalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -12,16 +13,39 @@ function CartItem() {
   );
 
   const handleOrderNow = () => {
+    const data=localStorage.getItem("user");
+    const name=data? JSON.parse(data).name : "Guest";
+    const userId=data? JSON.parse(data).id : null;
+    console.log(`Order placed by ${name} (User ID: ${userId})`);
     alert(`Order placed! Total:${TotalPrice}$`);
-
     const orderData = cartItems.map((item) => ({foodId: item._id,quantity: item.quantity, }));
-
     console.log(orderData);
+
+    if(userId && orderData.length > 0) {
+      try {
+        setLoading(true);
+        const response = fetch(`${process.env.REACT_APP_API}/api/order/submit`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({userId, items: orderData, name}),
+        });
+        if (response.success) {
+          alert("Order placed successfully!");
+          setLoading(false);
+          setCartItems([]);
+        };
+      } catch (error) {
+        setLoading(false);  
+        console.error("Error creating order:", error);
+      }
+    } 
   };
 
 
   const increaseQuantity = (id) => {
-  setCartItems(prev =>
+  setCartItems(prev =>  
     prev.map(item =>
       item._id === id
         ? { ...item, quantity: item.quantity + 1 }
@@ -98,7 +122,7 @@ const decreaseQuantity = (id) => {
                 <span className="summary-value">${TotalPrice + 2.99}</span>
               </div>
               <button onClick={handleOrderNow} className="place-order-btn">
-                Place Order
+                {loading ? "Placing Order..." : "Place Order"}
               </button>
             </div>
           </>

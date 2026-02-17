@@ -6,11 +6,12 @@ function Login({ setUser }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [show, setshow] = useState(false);
+  const url = process.env.REACT_APP_API;
 
   const handleLogin = async () => {
     if (phone && password) {
       try {
-        const res = await fetch("http://172.172.10.240:5000/api/login/user", {
+        const res = await fetch(`${url}/api/login/user`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

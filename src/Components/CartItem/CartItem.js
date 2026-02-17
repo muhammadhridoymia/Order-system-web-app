@@ -17,7 +17,7 @@ function CartItem() {
     const name=data? JSON.parse(data).name : "Guest";
     const userId=data? JSON.parse(data).id : null;
     console.log(`Order placed by ${name} (User ID: ${userId})`);
-    alert(`Order placed! Total:${TotalPrice}$`);
+    
     const orderData = cartItems.map((item) => ({foodId: item._id,quantity: item.quantity, }));
     console.log(orderData);
 
@@ -31,11 +31,12 @@ function CartItem() {
           },
           body: JSON.stringify({userId, items: orderData, name}),
         });
-        if (response.success) {
-          alert("Order placed successfully!");
-          setLoading(false);
-          setCartItems([]);
-        };
+        response.then(res => res.json()).then(data => {
+          if (data.success) {
+            setLoading(false);
+            setCartItems([]);
+          }
+        });
       } catch (error) {
         setLoading(false);  
         console.error("Error creating order:", error);

@@ -6,6 +6,8 @@ import { categories } from "../../utils/constants";
 import AllFood from "../FoodItems/AllFood";
 import Popular from "../FoodItems/Popular";
 import CategoryFoodImg from "../Category/CategoryFoodImg";
+import PostComponent from "../Post/Post";
+import About from "../About/About";
 
 
 const Home = () => {
@@ -39,6 +41,8 @@ const Home = () => {
       {activeCat==="All"&& <AllFood/>}
       {activeCat==="Popular"&& <Popular/>}
       {activeCat==="Category"&& <CategoryFoodImg/>}
+      {activeCat==="Restaurant Post"&& <PostComponent/>}
+      {activeCat==="About Us"&& <About/>}
     </div>
   );
 };

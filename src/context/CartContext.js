@@ -25,16 +25,32 @@ export const CartProvider = ({ children }) => {
     socket.emit("orderSubmit");
   };
 
+  const [post, setPost] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [CagegoryImg, setCategoryImg] = useState([]);
   const [Food, setFood] = useState([]);
   const [PopularFood, setPopularFood] = useState([]);
   const [CagegoryFood, setCategoryFood] = useState([]);
-  const [DataLiveOrder, setData] = useState({
-    items: [],
-  });
+  const [DataLiveOrder, setData] = useState({ items: [],});
+
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const fetchPost = async () => {
+    try {
+      const res = await fetch(`${url}/api/get/posts`);
+      if (!res.ok) {
+        throw new Error("Server not responding");
+      }
+      const data = await res.json();
+      if (data.success) {
+        setPost(data.posts);
+        console.log("Fetched posts:", data);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error.message);
+    }
+  };
 
   const fetchCategoriesFoods = async (id) => {
     try {
@@ -112,10 +128,13 @@ export const CartProvider = ({ children }) => {
       console.error(err);
     }
   }, [url]);
+
+  // Fetch initial data and set up socket listeners
   useEffect(() => {
     PopularFoodList();
     Category();
     FooD();
+    fetchPost();
 
     if (user?.id) {
       socket.emit("joinRoom", user.id);
@@ -158,6 +177,8 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        post,
+        setPost,
         OrderSubmit,
         DataLiveOrder,
         FetchLiveData,

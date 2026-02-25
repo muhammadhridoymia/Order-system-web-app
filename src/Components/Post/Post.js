@@ -1,41 +1,26 @@
 import React, { useState } from "react";
 import "./Post.css";
+import { useCart } from "../../context/CartContext";
 
 export default function Post() {
+  const { post = [], setPost } = useCart();
+  console.log("Post Data from post page:", post);
 
-  const demoPosts = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-      message: "Enjoying a beautiful day with delicious food 🍕",
-      likes: 12,
-      comments: ["Looks tasty!", "Wow 😍"]
-    },
-    {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1492724441997-5dc865305da7",
-      message: "Coffee time ☕",
-      likes: 8,
-      comments: ["I need this now!", "Perfect shot!"]
-    }
-  ];
-
-  const [posts, setPosts] = useState(demoPosts);
   const [commentInputs, setCommentInputs] = useState({});
 
   // Like Handler
   const handleLike = (id) => {
-    const updated = posts.map(post =>
-      post.id === id ? { ...post, likes: post.likes + 1 } : post
+    const updated = post.map((post) =>
+      post.id === id ? { ...post, likes: post.likes + 1 } : post,
     );
-    setPosts(updated);
+    setPost(updated);
   };
 
   // Handle Input Change
   const handleInputChange = (id, value) => {
     setCommentInputs({
       ...commentInputs,
-      [id]: value
+      [id]: value,
     });
   };
 
@@ -43,31 +28,33 @@ export default function Post() {
   const handleComment = (id) => {
     if (!commentInputs[id] || commentInputs[id].trim() === "") return;
 
-    const updated = posts.map(post =>
+    const updated = post.map((post) =>
       post.id === id
         ? { ...post, comments: [...post.comments, commentInputs[id]] }
-        : post
+        : post,
     );
 
-    setPosts(updated);
+    setPost(updated);
 
     setCommentInputs({
       ...commentInputs,
-      [id]: ""
+      [id]: "",
     });
   };
 
   return (
     <div className="post-container">
-      {posts.map(post => (
+      {post.map((post) => (
         <div key={post.id} className="post-card">
-
           <img src={post.image} alt="post" className="post-image" />
 
           <p className="post-message">{post.message}</p>
 
           <div className="post-actions">
-            <button onClick={() => handleLike(post.id)} className="btn like-btn">
+            <button
+              onClick={() => handleLike(post.id)}
+              className="btn like-btn"
+            >
               👍 {post.likes}
             </button>
 
@@ -98,7 +85,6 @@ export default function Post() {
               Add Comment
             </button>
           </div>
-
         </div>
       ))}
     </div>

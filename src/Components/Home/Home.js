@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BannerImage from "../../Images/banners.jpg";
 import { categories } from "../../utils/constants";
-
+import { useCart } from "../../context/CartContext";
 
 import AllFood from "../FoodItems/AllFood";
 import Popular from "../FoodItems/Popular";
@@ -11,13 +11,14 @@ import About from "../About/About";
 
 
 const Home = () => {
+  const { banners } = useCart();
   const [activeCat, setActiveCat] = useState("All");
 
   return (
     <div className="app-container">
       
       {/* BANNER */}
-      <div className="banner" style={{ backgroundImage: `url(${BannerImage})`, backgroundSize: 'cover' }}>
+      <div className="banner" style={{ backgroundImage: `url(${banners[1]?.img || BannerImage})`, backgroundSize: 'cover' }}>
         <div className="banner-title">Delicious Meals</div>
         <div className="banner-subtitle">Delivered fresh to your door</div>
       </div>

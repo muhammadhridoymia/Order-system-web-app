@@ -32,7 +32,7 @@ function LiveOrder() {
       {/* Header */}
       <div className="order-header">
         <h2>Live Order</h2>
-        <span className={`status`}>{DataLiveOrder.status}</span>
+        <span className={`status${DataLiveOrder.status}`}>{DataLiveOrder.status}</span>
       </div>
 
       {/* Order Info */}

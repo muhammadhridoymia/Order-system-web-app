@@ -32,9 +32,27 @@ export const CartProvider = ({ children }) => {
   const [PopularFood, setPopularFood] = useState([]);
   const [CagegoryFood, setCategoryFood] = useState([]);
   const [DataLiveOrder, setData] = useState({ items: [],});
+  const [banners, setBanners] = useState([]);
 
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
+
+    // Fetch banners
+  const fetchBanners = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/get/banners");
+      const data = await res.json();
+      if (data.success){
+        setBanners(data.banners);
+        console.log("Fetched banners:", data.banners);
+      }
+      else {
+        setBanners([]);
+      }
+    } catch (err) {
+
+    } 
+  };
 
   const fetchPost = async () => {
     try {
@@ -131,6 +149,7 @@ export const CartProvider = ({ children }) => {
 
   // Fetch initial data and set up socket listeners
   useEffect(() => {
+    fetchBanners();
     PopularFoodList();
     Category();
     FooD();
@@ -177,6 +196,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        banners,
         post,
         setPost,
         OrderSubmit,

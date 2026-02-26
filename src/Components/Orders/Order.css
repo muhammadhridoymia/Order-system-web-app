@@ -15,12 +15,16 @@
   align-items: center;
 }
 
-.status {
+.statusACCEPTED {
   padding: 4px 12px;
   border-radius: 20px;
-  font-size: 14px;
+  background: #37e15f;
+  color: #155724;
 }
-
+.stausPANDING {
+  background: #cce5ff;
+  color: #004085;
+}
 .status.preparing {
   background: #fff3cd;
   color: #856404;
